@@ -1,6 +1,6 @@
-import { auth, signIn } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import { connection } from "next/server";
+import { auth, signIn } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import { connection } from 'next/server';
 
 export const instant = false;
 
@@ -9,7 +9,7 @@ export default async function Home() {
   const session = await auth();
 
   if (session) {
-    redirect("/dashboard");
+    redirect('/dashboard');
   }
 
   return (
@@ -21,8 +21,8 @@ export default async function Home() {
         </p>
         <form
           action={async () => {
-            "use server";
-            await signIn("google", { redirectTo: "/dashboard" });
+            'use server';
+            await signIn('google', { redirectTo: '/dashboard' });
           }}
         >
           <button

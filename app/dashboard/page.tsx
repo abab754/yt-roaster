@@ -1,7 +1,7 @@
-import { auth, signOut } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import Image from "next/image";
-import { connection } from "next/server";
+import { auth, signOut } from '@/lib/auth';
+import { redirect } from 'next/navigation';
+import Image from 'next/image';
+import { connection } from 'next/server';
 
 export const instant = false;
 
@@ -10,7 +10,7 @@ export default async function Dashboard() {
   const session = await auth();
 
   if (!session?.user) {
-    redirect("/");
+    redirect('/');
   }
 
   const { name, email, image } = session.user;
@@ -21,7 +21,7 @@ export default async function Dashboard() {
         {image && (
           <Image
             src={image}
-            alt={name ?? "Avatar"}
+            alt={name ?? 'Avatar'}
             width={80}
             height={80}
             className="rounded-full"
@@ -36,8 +36,8 @@ export default async function Dashboard() {
         </p>
         <form
           action={async () => {
-            "use server";
-            await signOut({ redirectTo: "/" });
+            'use server';
+            await signOut({ redirectTo: '/' });
           }}
         >
           <button
