@@ -1,8 +1,12 @@
 import { auth, signOut } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { connection } from "next/server";
+
+export const instant = false;
 
 export default async function Dashboard() {
+  await connection();
   const session = await auth();
 
   if (!session?.user) {
