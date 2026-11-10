@@ -147,3 +147,25 @@ export async function fetchPlaylists(userId: string) {
 
     return allPlaylists;
 }
+
+// Batch fetch video details (duration, categoryId) for a list of video IDs
+// videos.list accepts up to 50 IDs per call
+export async function fetchVideoDetails(userId: string, videoIds: string[]) {
+    const youtube = await getYouTubeClient(userId);
+    const details = new Map<string, youtube_v3.Schema$Video>();
+
+    for (let i = 0; i < videoIds.length; i += 50) {
+        const batch = videoIds.slice(i, i + 50);
+        const response = await youtube.videos.list({
+            part: ['contentDetails', 'snippet'],
+            id: batch,
+        });
+        for (const item of response.data.items || []) {
+            if (item.id) {
+                details.set(item.id, item);
+            }
+        }
+    }
+
+    return details;
+}
