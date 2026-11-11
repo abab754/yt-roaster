@@ -2,6 +2,7 @@ import { auth, signOut } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import { connection } from 'next/server';
+import ProfileStats from './profile-stats';
 
 export const instant = false;
 
@@ -16,24 +17,24 @@ export default async function Dashboard() {
   const { name, email, image } = session.user;
 
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <div className="flex flex-col items-center gap-6 text-center">
-        {image && (
-          <Image
-            src={image}
-            alt={name ?? 'Avatar'}
-            width={80}
-            height={80}
-            className="rounded-full"
-          />
-        )}
-        <div>
-          <h1 className="text-2xl font-bold">{name}</h1>
-          <p className="text-zinc-500">{email}</p>
+    <div className="w-full px-6 py-8 sm:px-10 lg:px-16">
+      {/* Header */}
+      <div className="mb-8 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {image && (
+            <Image
+              src={image}
+              alt={name ?? 'Avatar'}
+              width={48}
+              height={48}
+              className="rounded-full"
+            />
+          )}
+          <div>
+            <h1 className="text-xl font-bold">{name}</h1>
+            <p className="text-sm text-zinc-500">{email}</p>
+          </div>
         </div>
-        <p className="text-zinc-600 dark:text-zinc-400">
-          YouTube data fetching coming in Sprint 2.
-        </p>
         <form
           action={async () => {
             'use server';
@@ -42,12 +43,15 @@ export default async function Dashboard() {
         >
           <button
             type="submit"
-            className="rounded-full bg-zinc-900 px-6 py-2 text-sm font-medium text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+            className="rounded-full border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 transition hover:bg-zinc-800"
           >
             Sign out
           </button>
         </form>
       </div>
+
+      {/* Stats */}
+      <ProfileStats />
     </div>
   );
 }
