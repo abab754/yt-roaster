@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write .",
@@ -16,6 +16,7 @@
     "@auth/prisma-adapter": "^2.11.3",
     "@prisma/client": "^6.19.3",
     "@react-oauth/google": "^0.13.5",
+    "googleapis": "^189.0.0",
     "next": "16.4.5",
     "next-auth": "^5.0.0-beta.32",
     "prisma": "^6.19.3",

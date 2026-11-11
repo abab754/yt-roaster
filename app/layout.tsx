@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   description: 'Let AI roast your YouTube taste',
 };
 
-export default function RootLayout({ children }: LayoutProps<'/'>) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
