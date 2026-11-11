@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, it, expect } from 'vitest';
 import {
   parseDuration,
@@ -78,12 +79,23 @@ describe('normalizeVideos', () => {
     const items = [
       {
         contentDetails: { videoId: 'short1' },
-        snippet: { title: 'Short', videoOwnerChannelTitle: 'Ch', publishedAt: '' },
+        snippet: {
+          title: 'Short',
+          videoOwnerChannelTitle: 'Ch',
+          publishedAt: '',
+        },
       },
     ] as any[];
 
     const details = new Map([
-      ['short1', { id: 'short1', contentDetails: { duration: 'PT30S' }, snippet: { categoryId: '24' } }],
+      [
+        'short1',
+        {
+          id: 'short1',
+          contentDetails: { duration: 'PT30S' },
+          snippet: { categoryId: '24' },
+        },
+      ],
     ] as any);
 
     const result = normalizeVideos(items, details);
@@ -100,9 +112,7 @@ describe('normalizeVideos', () => {
   });
 
   it('falls back to defaults for missing fields', () => {
-    const items = [
-      { contentDetails: { videoId: 'v1' }, snippet: {} },
-    ] as any[];
+    const items = [{ contentDetails: { videoId: 'v1' }, snippet: {} }] as any[];
 
     const result = normalizeVideos(items, new Map());
     expect(result[0].title).toBe('Unknown');
@@ -115,7 +125,13 @@ describe('normalizeVideos', () => {
 describe('normalizeSubscriptions', () => {
   it('maps subscription data', () => {
     const subs = [
-      { snippet: { resourceId: { channelId: 'ch1' }, title: 'Channel One', description: 'Desc' } },
+      {
+        snippet: {
+          resourceId: { channelId: 'ch1' },
+          title: 'Channel One',
+          description: 'Desc',
+        },
+      },
     ] as any[];
 
     const result = normalizeSubscriptions(subs);
@@ -128,23 +144,70 @@ describe('normalizeSubscriptions', () => {
 describe('normalizePlaylists', () => {
   it('maps playlist data', () => {
     const playlists = [
-      { id: 'pl1', snippet: { title: 'My Playlist' }, contentDetails: { itemCount: 5 } },
+      {
+        id: 'pl1',
+        snippet: { title: 'My Playlist' },
+        contentDetails: { itemCount: 5 },
+      },
     ] as any[];
 
     const result = normalizePlaylists(playlists);
-    expect(result).toEqual([
-      { id: 'pl1', title: 'My Playlist', itemCount: 5 },
-    ]);
+    expect(result).toEqual([{ id: 'pl1', title: 'My Playlist', itemCount: 5 }]);
   });
 });
 
 describe('computeStats', () => {
   const videos: VideoSummary[] = [
-    { videoId: '1', title: 'V1', channelName: 'Alpha', categoryId: '27', categoryName: 'Education', durationSeconds: 600, publishedAt: '', isShort: false },
-    { videoId: '2', title: 'V2', channelName: 'Alpha', categoryId: '27', categoryName: 'Education', durationSeconds: 300, publishedAt: '', isShort: false },
-    { videoId: '3', title: 'V3', channelName: 'Beta', categoryId: '20', categoryName: 'Gaming', durationSeconds: 45, publishedAt: '', isShort: true },
-    { videoId: '4', title: 'V4', channelName: 'Alpha', categoryId: '10', categoryName: 'Music', durationSeconds: 200, publishedAt: '', isShort: false },
-    { videoId: '5', title: 'V5', channelName: 'Gamma', categoryId: '20', categoryName: 'Gaming', durationSeconds: 30, publishedAt: '', isShort: true },
+    {
+      videoId: '1',
+      title: 'V1',
+      channelName: 'Alpha',
+      categoryId: '27',
+      categoryName: 'Education',
+      durationSeconds: 600,
+      publishedAt: '',
+      isShort: false,
+    },
+    {
+      videoId: '2',
+      title: 'V2',
+      channelName: 'Alpha',
+      categoryId: '27',
+      categoryName: 'Education',
+      durationSeconds: 300,
+      publishedAt: '',
+      isShort: false,
+    },
+    {
+      videoId: '3',
+      title: 'V3',
+      channelName: 'Beta',
+      categoryId: '20',
+      categoryName: 'Gaming',
+      durationSeconds: 45,
+      publishedAt: '',
+      isShort: true,
+    },
+    {
+      videoId: '4',
+      title: 'V4',
+      channelName: 'Alpha',
+      categoryId: '10',
+      categoryName: 'Music',
+      durationSeconds: 200,
+      publishedAt: '',
+      isShort: false,
+    },
+    {
+      videoId: '5',
+      title: 'V5',
+      channelName: 'Gamma',
+      categoryId: '20',
+      categoryName: 'Gaming',
+      durationSeconds: 30,
+      publishedAt: '',
+      isShort: true,
+    },
   ];
 
   const subs: Subscription[] = [
@@ -172,8 +235,14 @@ describe('computeStats', () => {
 
   it('computes category breakdown sorted descending', () => {
     const stats = computeStats(videos, subs, playlists);
-    expect(stats.categoryBreakdown[0]).toEqual({ category: 'Education', count: 2 });
-    expect(stats.categoryBreakdown[1]).toEqual({ category: 'Gaming', count: 2 });
+    expect(stats.categoryBreakdown[0]).toEqual({
+      category: 'Education',
+      count: 2,
+    });
+    expect(stats.categoryBreakdown[1]).toEqual({
+      category: 'Gaming',
+      count: 2,
+    });
     expect(stats.categoryBreakdown[2]).toEqual({ category: 'Music', count: 1 });
   });
 

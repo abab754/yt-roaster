@@ -61,7 +61,8 @@ export function normalizeVideos(
         categoryName: CATEGORY_MAP[categoryId] ?? 'Other',
         durationSeconds,
         publishedAt: item.snippet?.publishedAt ?? '',
-        isShort: durationSeconds > 0 && durationSeconds <= SHORTS_THRESHOLD_SECONDS,
+        isShort:
+          durationSeconds > 0 && durationSeconds <= SHORTS_THRESHOLD_SECONDS,
       };
     })
     .filter((v) => v.videoId !== '');
@@ -95,7 +96,10 @@ export function computeStats(
   // Top channels by liked video count
   const channelCounts = new Map<string, number>();
   for (const v of videos) {
-    channelCounts.set(v.channelName, (channelCounts.get(v.channelName) ?? 0) + 1);
+    channelCounts.set(
+      v.channelName,
+      (channelCounts.get(v.channelName) ?? 0) + 1,
+    );
   }
   const topChannels = [...channelCounts.entries()]
     .sort((a, b) => b[1] - a[1])
@@ -105,7 +109,10 @@ export function computeStats(
   // Category breakdown
   const categoryCounts = new Map<string, number>();
   for (const v of videos) {
-    categoryCounts.set(v.categoryName, (categoryCounts.get(v.categoryName) ?? 0) + 1);
+    categoryCounts.set(
+      v.categoryName,
+      (categoryCounts.get(v.categoryName) ?? 0) + 1,
+    );
   }
   const categoryBreakdown = [...categoryCounts.entries()]
     .sort((a, b) => b[1] - a[1])
@@ -113,7 +120,8 @@ export function computeStats(
 
   // Average duration
   const totalDuration = videos.reduce((sum, v) => sum + v.durationSeconds, 0);
-  const avgVideoDurationSeconds = videos.length > 0 ? Math.round(totalDuration / videos.length) : 0;
+  const avgVideoDurationSeconds =
+    videos.length > 0 ? Math.round(totalDuration / videos.length) : 0;
 
   // Shorts vs long form
   const shorts = videos.filter((v) => v.isShort).length;
