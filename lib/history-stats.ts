@@ -21,7 +21,7 @@ export function computeHistoryStats(entries: TakeoutEntry[]): HistoryStats {
   let lateNightCount = 0;
   for (const entry of entries) {
     if (!entry.watchedAt) continue;
-    const hour = new Date(entry.watchedAt).getHours();
+    const hour = new Date(entry.watchedAt).getUTCHours();
     if (hour >= 0 && hour < 5) {
       lateNightCount++;
     }
