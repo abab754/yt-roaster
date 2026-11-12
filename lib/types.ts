@@ -31,6 +31,21 @@ export interface ProfileStats {
   shortsVsLongForm: { shorts: number; long: number };
 }
 
+export interface TakeoutEntry {
+  videoId: string;
+  title: string;
+  channelName: string;
+  watchedAt: string;
+}
+
+export interface HistoryStats {
+  totalWatched: number;
+  estimatedHours: number;
+  lateNightPercent: number;
+  longestBingeStreak: number;
+  topWatchedChannels: { name: string; count: number }[];
+}
+
 export interface UserProfile {
   channelName: string;
   channelId: string;
