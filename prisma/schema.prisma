@@ -26,12 +26,13 @@ model User {
   profile   Profile?
 }
 
-model Profile {                                                                                                
-  id        String   @id @default(cuid())                                                                      
-  userId    String   @unique                                                                                 
-  data      Json                                                                                               
-  fetchedAt DateTime @default(now())                                                                         
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)                          
+model Profile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  data         Json
+  historyStats Json?
+  fetchedAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
